@@ -23,14 +23,15 @@ labels_dict = {'A': 0, 'B': 1, 'C': 2, 'D': 3, 'E': 4, 'F': 5, 'G': 6, 'H': 7, '
 reverse_labels_dict = {v: k for k, v in labels_dict.items()}
 class VideoTransformer(VideoTransformerBase):
 	image_counter = 0
+	predicted_letter = "Predicting"
 	def transform(self, frame):
 		VideoTransformer.image_counter += 1
 		image = frame.to_ndarray(format="bgr24")
-		predicted_letter = "Predicting"
-		if VideoTransformer.image_counterr%500==0:
+		hands = mp_hands.Hands(min_detection_confidence=0.5, min_tracking_confidence=0.5)   
+		if VideoTransformer.image_counter%10 ==0:
 			process_image = image.copy()
 			process_image.flags.writeable = False
-			hands = mp_hands.Hands(min_detection_confidence=0.5, min_tracking_confidence=0.5)
+			
 			process_results = hands.process(process_image)
 			#return img
 			# minRange = np.array([0, 133, 77], np.uint8)
@@ -45,7 +46,6 @@ class VideoTransformer(VideoTransformerBase):
 			if process_results.multi_hand_landmarks:
 				for hand_landmarks in process_results.multi_hand_landmarks:
 					mp_drawing.draw_landmarks(blank_image, hand_landmarks, mp_hands.HAND_CONNECTIONS)
-		
 	
 			# image_path = f"hand_image_{ VideoTransformer.image_counter}.png"
 			# cv2.imwrite(image_path, blank_image)
@@ -58,18 +58,19 @@ class VideoTransformer(VideoTransformerBase):
 			process_image = np.expand_dims(process_image, axis=0)
 			prediction = model.predict(process_image)
 			predicted_class = np.argmax(prediction)
-			predicted_letter = reverse_labels_dict[predicted_class]
+			VideoTransformer.predicted_letter = reverse_labels_dict[predicted_class]
 			
 		image = cv2.cvtColor(cv2.flip(image, 1), cv2.COLOR_BGR2RGB)
 		image.flags.writeable = False
 		results = hands.process(image)
 		image.flags.writeable = True
+		print(VideoTransformer.predicted_letter)
 		image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
 		if results.multi_hand_landmarks:
 		 	for hand_landmarks in results.multi_hand_landmarks:
 					mp_drawing.draw_landmarks(image, hand_landmarks, mp_hands.HAND_CONNECTIONS)
 
-		cv2.putText(image, f'Predicted Alphabet: {predicted_letter}', (10, 30),
+		cv2.putText(image, f'Predicted Alphabet: {VideoTransformer.predicted_letter}', (10, 30),
 		cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2, cv2.LINE_AA)
 		return image  
 
