@@ -5,4 +5,4 @@ opencv_python==4.8.1.78
 streamlit==1.28.2
 streamlit_webrtc==0.47.1
 tensorflow==2.15.0
-tensorflow_intel==2.15.0
+
