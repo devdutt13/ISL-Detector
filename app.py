@@ -10,8 +10,6 @@ mp_drawing = mp.solutions.drawing_utils
 mp_hands = mp.solutions.hands
 
 @st.cache(hash_funcs={"MyUnhashableClass": lambda _: None}
-	  
-@st.cache
 def load_model():
     return keras.models.load_model("sign_recognition_model.h5")
 	
