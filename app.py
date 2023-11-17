@@ -24,59 +24,60 @@ reverse_labels_dict = {v: k for k, v in labels_dict.items()}
 class VideoTransformer(VideoTransformerBase):
     image_counter = 0
     def transform(self, frame):
-	VideoTransformer.image_counter += 1
-	image = frame.to_ndarray(format="bgr24")
-	predicted_letter = "Predicting"
-	if VideoTransformer.image_counterr%50==0:
-	        process_image = image.copy()
-	        process_image.flags.writeable = False
-	        
-	        hands = mp_hands.Hands(min_detection_confidence=0.5, min_tracking_confidence=0.5)
-	        process_results = hands.process(process_image)
-	        #return img
-	        # minRange = np.array([0, 133, 77], np.uint8)
-	        # maxRange = np.array([235, 173, 127], np.uint8)
-	        # YCRn = cv2.cvtColor(img, cv2.COLOR_BGR2YCR_CB)
-	        # skinArea = cv2.inRange(YCRn, minRange, maxRange)
-	        # detectedSkin = cv2.bitwise_and(img, img, mask=skinArea)
-	        # # return detectedSkin
-	        # edges = cv2.Canny(detectedSkin, 100, 200)
-	        # return edges
-	        blank_image = np.zeros_like(image)
-	        if process_results.multi_hand_landmarks:
-	            for hand_landmarks in process_results.multi_hand_landmarks:
-	             mp_drawing.draw_landmarks(
-	                    blank_image, hand_landmarks, mp_hands.HAND_CONNECTIONS)
-	        
-       
+	    VideoTransformer.image_counter += 1
+	    image = frame.to_ndarray(format="bgr24")
+	    predicted_letter = "Predicting"
+	    
+	    if VideoTransformer.image_counterr%50==0:
+		process_image = image.copy()
+		process_image.flags.writeable = False
+		
+		hands = mp_hands.Hands(min_detection_confidence=0.5, min_tracking_confidence=0.5)
+		process_results = hands.process(process_image)
+		#return img
+		# minRange = np.array([0, 133, 77], np.uint8)
+		# maxRange = np.array([235, 173, 127], np.uint8)
+		# YCRn = cv2.cvtColor(img, cv2.COLOR_BGR2YCR_CB)
+		# skinArea = cv2.inRange(YCRn, minRange, maxRange)
+		# detectedSkin = cv2.bitwise_and(img, img, mask=skinArea)
+		# # return detectedSkin
+		# edges = cv2.Canny(detectedSkin, 100, 200)
+		# return edges
+		blank_image = np.zeros_like(image)
+		if process_results.multi_hand_landmarks:
+		    for hand_landmarks in process_results.multi_hand_landmarks:
+		     mp_drawing.draw_landmarks(
+			    blank_image, hand_landmarks, mp_hands.HAND_CONNECTIONS)
+		
+	
 		# image_path = f"hand_image_{ VideoTransformer.image_counter}.png"
 		# cv2.imwrite(image_path, blank_image)
 		process_image = cv2.cvtColor(blank_image, cv2.COLOR_BGR2GRAY) 
 		# Assuming images are grayscale
-        
-	        process_image = cv2.resize(process_image, (64, 64)) 
-	        # image_path_1 = f"final_hand_image_{ VideoTransformer.image_counter}.png"
-	        # cv2.imwrite(image_path_1, process_image)
-	        process_image = process_image.astype("float32") / 255.0
-	        process_image = np.expand_dims(process_image, axis=0)
+	
+		process_image = cv2.resize(process_image, (64, 64)) 
+		# image_path_1 = f"final_hand_image_{ VideoTransformer.image_counter}.png"
+		# cv2.imwrite(image_path_1, process_image)
+		process_image = process_image.astype("float32") / 255.0
+		process_image = np.expand_dims(process_image, axis=0)
 		prediction = model.predict(process_image)
 		predicted_class = np.argmax(prediction)
-                predicted_letter = reverse_labels_dict[predicted_class]
+		predicted_letter = reverse_labels_dict[predicted_class]
 	        
-        image = cv2.cvtColor(cv2.flip(image, 1), cv2.COLOR_BGR2RGB)
-        image.flags.writeable = False
-        results = hands.process(image)
+	   image = cv2.cvtColor(cv2.flip(image, 1), cv2.COLOR_BGR2RGB)
+	   image.flags.writeable = False
+	   results = hands.process(image)
 	    
-        image.flags.writeable = True
-        image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
-        if results.multi_hand_landmarks:
-            for hand_landmarks in results.multi_hand_landmarks:
-             mp_drawing.draw_landmarks(
-                image, hand_landmarks, mp_hands.HAND_CONNECTIONS)
+	   image.flags.writeable = True
+	   image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
+	   if results.multi_hand_landmarks:
+	     for hand_landmarks in results.multi_hand_landmarks:
+	        mp_drawing.draw_landmarks(
+		    image, hand_landmarks, mp_hands.HAND_CONNECTIONS)
 
-        cv2.putText(image, f'Predicted Alphabet: {predicted_letter}', (10, 30),
-                cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2, cv2.LINE_AA)
-        return image  
+	   cv2.putText(image, f'Predicted Alphabet: {predicted_letter}', (10, 30),
+		cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2, cv2.LINE_AA)
+	   return image  
 
 st.title('ISL Detector')
 
