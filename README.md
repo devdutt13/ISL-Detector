@@ -1,4 +1,4 @@
-# ISL-Detector
+# ISL-Detection using Mediapipe and CNN
 Indian Sign Language Detection using Mediapipe and CNN
 
 The Indian Sign Language Recognition project aims to detect Indian Sign Language gestures from a live video feed. This is achieved by utilizing the following components:
