@@ -9,7 +9,7 @@ import os
 mp_drawing = mp.solutions.drawing_utils
 mp_hands = mp.solutions.hands
 
-@st.cache(hash_funcs={"MyUnhashableClass": lambda _: None})
+@st.cache(allow_output_mutation=True,hash_funcs={"MyUnhashableClass": lambda _: None})
 def load_model_1():
 	return keras.models.load_model("sign_recognition_model.h5")
 	
