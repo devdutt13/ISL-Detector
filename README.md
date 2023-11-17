@@ -19,10 +19,16 @@ The Indian Sign Language Recognition project aims to detect Indian Sign Language
 
 To run the Indian Sign Language Recognition application, follow these steps:
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/your-username/indian-sign-language-recognition.git
-****
+```bash
+# 1. Clone the repository
+git clone https://github.com/your-username/indian-sign-language-recognition.git
+
+# 2. Navigate to the project directory
 cd indian-sign-language-recognition
+
+# 3. Install dependencies
 pip install -r requirements.txt
+
+# 4. Run the application
 streamlit run app.py
+
