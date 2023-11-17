@@ -21,7 +21,7 @@ To run the Indian Sign Language Recognition application, follow these steps:
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/your-username/indian-sign-language-recognition.git
+git clone https://github.com/devdutt13/ISL-Detector.git
 
 # 2. Navigate to the project directory
 cd indian-sign-language-recognition
