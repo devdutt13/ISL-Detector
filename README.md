@@ -12,5 +12,17 @@ The Indian Sign Language Recognition project aims to detect Indian Sign Language
 ## Features
 
 - Real-time hand and finger tracking using Mediapipe.
-- CNN model for accurate sign language prediction.
+- CNN model for  sign language prediction.
 - User-friendly UI powered by Streamlit.
+
+# Run the Application
+
+To run the Indian Sign Language Recognition application, follow these steps:
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/your-username/indian-sign-language-recognition.git
+****
+cd indian-sign-language-recognition
+pip install -r requirements.txt
+streamlit run app.py
