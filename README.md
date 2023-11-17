@@ -23,13 +23,12 @@ To run the Indian Sign Language Recognition application, follow these steps:
 # 1. Clone the repository
 git clone https://github.com/your-username/indian-sign-language-recognition.git
 
-```bash
 # 2. Navigate to the project directory
 cd indian-sign-language-recognition
-```bash
+
 # 3. Install dependencies
 pip install -r requirements.txt
-```bash
+
 # 4. Run the application
 streamlit run app.py
 
