@@ -10,10 +10,10 @@ mp_drawing = mp.solutions.drawing_utils
 mp_hands = mp.solutions.hands
 
 @st.cache(hash_funcs={"MyUnhashableClass": lambda _: None})
-def load_model():
+def load_model_1():
 	return keras.models.load_model("sign_recognition_model.h5")
 	
-model = load_model()
+model = load_model_1()
 
 labels_dict = {'A': 0, 'B': 1, 'C': 2, 'D': 3, 'E': 4, 'F': 5, 'G': 6, 'H': 7, 'I': 8, 'J': 9,
 			   'K': 10, 'L': 11, 'M': 12, 'N': 13, 'O': 14, 'P': 15, 'Q': 16, 'R': 17, 'S': 18,
