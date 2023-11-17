@@ -9,11 +9,11 @@ import os
 mp_drawing = mp.solutions.drawing_utils
 mp_hands = mp.solutions.hands
 
-@st.cache(allow_output_mutation=True,hash_funcs={"MyUnhashableClass": lambda _: None})
-def load_model_1():
-	return keras.models.load_model("sign_recognition_model.h5")
+# @st.cache(allow_output_mutation=True,hash_funcs={"MyUnhashableClass": lambda _: None})
+# def load_model_1():
+# 	return keras.models.load_model("sign_recognition_model.h5")
 	
-model = load_model_1()
+model = keras.models.load_model("sign_recognition_model.h5")
 
 labels_dict = {'A': 0, 'B': 1, 'C': 2, 'D': 3, 'E': 4, 'F': 5, 'G': 6, 'H': 7, 'I': 8, 'J': 9,
 			   'K': 10, 'L': 11, 'M': 12, 'N': 13, 'O': 14, 'P': 15, 'Q': 16, 'R': 17, 'S': 18,
@@ -27,7 +27,7 @@ class VideoTransformer(VideoTransformerBase):
 		VideoTransformer.image_counter += 1
 		image = frame.to_ndarray(format="bgr24")
 		predicted_letter = "Predicting"
-		if VideoTransformer.image_counterr%50==0:
+		if VideoTransformer.image_counterr%500==0:
 			process_image = image.copy()
 			process_image.flags.writeable = False
 			hands = mp_hands.Hands(min_detection_confidence=0.5, min_tracking_confidence=0.5)
